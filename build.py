@@ -1,0 +1,53 @@
+import glob
+import os
+from datetime import datetime
+
+def strip_front_matter(text: str) -> str:
+    lines = text.splitlines()
+    if len(lines) > 0 and lines[0].strip() == "---":
+        try:
+            end_idx = lines[1:].index("---") + 1
+            return "\n".join(lines[end_idx+1:])
+        except ValueError:
+            return text
+    return text
+
+def build_index():
+    with open("template.html", encoding="utf-8") as f:
+        template = f.read()
+
+    articles = []
+    for path in sorted(glob.glob("./*.md")):
+        filename = os.path.basename(path)
+        stem = filename.replace(".md", "")
+
+        try:
+            dt = datetime.strptime(stem, "%Y-%m-%d-%H-%M-%S")
+            dt_str = dt.strftime("%Y/%m/%d %H:%M")
+        except ValueError:
+            continue
+
+        with open(path, encoding="utf-8") as f:
+            text = f.read()
+
+        text = strip_front_matter(text)
+
+        tags = []
+
+        articles.append(f"""
+        <article>
+          <pre>{text}</pre>
+          <div class="tags">{" ".join("#"+t for t in tags)}</div>
+          <div class="date">{dt_str}</div>
+        </article>
+        """)
+
+    content = "\n".join(articles)
+    output = template.replace("{{content}}", content)
+
+    os.makedirs("dist", exist_ok=True)
+    with open("dist/index.html", "w", encoding="utf-8") as f:
+        f.write(output)
+
+if __name__ == "__main__":
+    build_index()
