@@ -45,8 +45,8 @@ def build_index():
     content = "\n".join(articles)
     output = template.replace("{{content}}", content)
 
-    os.makedirs("dist", exist_ok=True)
-    with open("dist/index.html", "w", encoding="utf-8") as f:
+    os.makedirs("docs", exist_ok=True)
+    with open("docs/index.html", "w", encoding="utf-8") as f:
         f.write(output)
 
 if __name__ == "__main__":
