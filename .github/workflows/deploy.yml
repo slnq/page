@@ -8,10 +8,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -19,7 +20,9 @@ jobs:
           python-version: '3.x'
 
       - name: Build site
-        run: python build.py
+        run: |
+          python build.py
+          ls -R ./dist   # デバッグ用に確認
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
