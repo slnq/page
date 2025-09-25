@@ -24,7 +24,7 @@ jobs:
           pip install fugashi unidic-lite
 
       - name: Build site
-        run: python build/build.py
+        run: python build.py
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
