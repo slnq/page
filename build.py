@@ -1,6 +1,7 @@
 import glob
 import os
 from datetime import datetime
+from tagger_util import extract_tags  # ← ここでインポート
 
 def strip_front_matter(text: str) -> str:
     lines = text.splitlines()
@@ -32,13 +33,14 @@ def build_index():
 
         text = strip_front_matter(text)
 
-        tags = []
+        # ここでタグ抽出
+        tags = extract_tags(text)
 
         articles.append(f"""
         <article>
           <pre>{text}</pre>
-          <div class="tags">{" ".join("#"+t for t in tags)}</div>
-          <div class="date">{dt_str}</div>
+          <pre class="tags">{" ".join("#"+t for t in tags)}</pre>
+          <pre class="date">{dt_str}</pre>
         </article>
         """)
 

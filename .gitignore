@@ -1,0 +1,4 @@
+/doc/
+__pycache__/
+/test.py
+/build_nontag.py
