@@ -1,7 +1,7 @@
 import glob
 import os
 from datetime import datetime
-from tagger_util import extract_tags  # ← ここでインポート
+from tagger_util import extract_tags
 
 def strip_front_matter(text: str) -> str:
     lines = text.splitlines()
@@ -14,11 +14,11 @@ def strip_front_matter(text: str) -> str:
     return text
 
 def build_index():
-    with open("template.html", encoding="utf-8") as f:
+    with open("./build/template.html", encoding="utf-8") as f:
         template = f.read()
 
     articles = []
-    for path in sorted(glob.glob("./*.md")):
+    for path in sorted(glob.glob("./post/*.md")):
         filename = os.path.basename(path)
         stem = filename.replace(".md", "")
 
@@ -33,7 +33,6 @@ def build_index():
 
         text = strip_front_matter(text)
 
-        # ここでタグ抽出
         tags = extract_tags(text)
 
         articles.append(f"""
@@ -47,8 +46,8 @@ def build_index():
     content = "\n".join(articles)
     output = template.replace("{{content}}", content)
 
-    os.makedirs("docs", exist_ok=True)
-    with open("docs/index.html", "w", encoding="utf-8") as f:
+    os.makedirs("./docs", exist_ok=True)
+    with open("./docs/index.html", "w", encoding="utf-8") as f:
         f.write(output)
 
 if __name__ == "__main__":
