@@ -1,7 +1,10 @@
 import fugashi
+import re
 
-# タグ抽出関数
 def extract_tags(text: str, stopwords_path: str = "./build/stopwords.txt"):
+
+    text = re.sub(r'https?://\S+|www\.\S+', '', text)
+
     with open(stopwords_path, encoding="utf-8") as f:
         stopwords = set(f.read().strip().split(","))
 
