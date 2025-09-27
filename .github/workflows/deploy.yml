@@ -24,6 +24,12 @@ jobs:
           pip install fugashi unidic
           python -m unidic download
 
+      - name: Show changed Markdown files in ./post
+        run: |
+          echo "Changed Markdown files in ./post:"
+          git fetch origin main
+          git diff --name-only ${{ github.sha }}^ ${{ github.sha }} | grep '^post/.*\.md$' || echo "No changes"
+
       - name: Build site
         run: python build.py
 
