@@ -1,17 +1,10 @@
 import glob
 import os
 from datetime import datetime
+from build.strip_front_matter import strip_front_matter
 from build.tagger_util import extract_tags
-
-def strip_front_matter(text: str) -> str:
-    lines = text.splitlines()
-    if len(lines) > 0 and lines[0].strip() == "---":
-        try:
-            end_idx = lines[1:].index("---") + 1
-            return "\n".join(lines[end_idx+1:])
-        except ValueError:
-            return text
-    return text
+from db.add_post_tags import add_post_tags
+from db.init_db import init_db
 
 def build_index():
     with open("./build/template.html", encoding="utf-8") as f:
@@ -34,6 +27,9 @@ def build_index():
         text = strip_front_matter(text)
 
         tags = extract_tags(text)
+        
+        init_db()
+        add_post_tags(filename, tags)
 
         articles.append(f"""
         <article>

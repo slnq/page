@@ -1,3 +1,5 @@
 docs/
 __pycache__/
 build/__pycache__/
+db/__pycache__/
+db/data.db
