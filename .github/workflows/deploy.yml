@@ -27,27 +27,27 @@ jobs:
           pip install fugashi unidic
           python -m unidic download
 
-      - name: Get added Markdown files
+      - name: Get added Markdown file
         id: get_md
         run: |
           git fetch origin main
-          # 直前のコミットで追加された .md ファイルのみ
-          FILES=$(git diff --name-only ${{ github.sha }}^ ${{ github.sha }} | grep '^post/.*\.md$' || true)
-          echo "files=$FILES" >> $GITHUB_OUTPUT
+          FILE=$(git diff --name-only ${{ github.sha }}^ ${{ github.sha }} | grep '^post/.*\.md$' | head -n 1 || true)
+          echo "Detected file: $FILE"
+          echo "file=$FILE" >> $GITHUB_OUTPUT
 
-      - name: Update DB for new posts
+      - name: Update DB for new post
+        if: steps.get_md.outputs.file != ''
         run: |
-          for f in ${{ steps.get_md.outputs.files }}; do
-            echo "Processing $f"
-            python main.py "$f"
-          done
+          echo "Processing ${{ steps.get_md.outputs.file }}"
+          python main.py "${{ steps.get_md.outputs.file }}"
 
       - name: Commit updated DB
+        if: steps.get_md.outputs.file != ''
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add db/data.db
-          git commit -m "Update DB for: ${{ steps.get_md.outputs.files }}"
+          git commit -m "Update DB for: ${{ steps.get_md.outputs.file }}"
           git push
 
       - name: Build site
