@@ -5,7 +5,7 @@ from build.strip_front_matter import strip_front_matter
 
 DB_PATH = "db/data.db"
 POSTS_DIR = Path("post")
-OUTPUT_DIR = Path("tags_html")
+OUTPUT_DIR = Path("docs/tags")
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 TEMPLATE_PATH = "./build/template.html"
@@ -86,3 +86,9 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+#build.pyはdbの初期化，dbへの追加，index.htmlの作成
+#test.pyはdocs/tags以下のhtmlの作成
+#index.htmlを作る→dbを作る→dbを元にタグのhtmlを作る→タグのhtmlを参考にindex.htmlを更新する となっていて困る
+#つまりbuild→test→buildの順番で実行する必要がある
