@@ -39,7 +39,7 @@ jobs:
         if: steps.get_md.outputs.file != ''
         run: |
           echo "Processing ${{ steps.get_md.outputs.file }}"
-          python main.py "${{ steps.get_md.outputs.file }}"
+          python main_db.py "${{ steps.get_md.outputs.file }}"
 
       - name: Commit updated DB
         if: steps.get_md.outputs.file != ''
@@ -51,7 +51,7 @@ jobs:
           git push
 
       - name: Build site
-        run: python build.py
+        run: python main_ssg.py
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

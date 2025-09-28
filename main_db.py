@@ -32,7 +32,7 @@ if __name__ == "__main__":
     
 	# check command line arguments
     if len(sys.argv) < 2:
-        print("Usage: python main.py <new_post.md>")
+        print("Usage: python main_db.py <new_post.md>")
         sys.exit(1)
 
 	# morphological analysis and add to db
