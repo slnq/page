@@ -40,6 +40,11 @@ jobs:
           echo "Detected file: $FILE"
           echo "file=post/$FILE" >> $GITHUB_OUTPUT
 
+      - name: Checkout submodule HEAD
+        run: |
+          cd post
+          git checkout origin/main
+
       - name: Update DB for new post
         if: steps.get_md.outputs.file != ''
         run: |
