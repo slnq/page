@@ -2,7 +2,7 @@ import os
 import sqlite3
 from build.strip_front_matter import strip_front_matter
 from datetime import datetime
-
+import re
 
 def build_index():
     # load HTML template
@@ -57,18 +57,22 @@ def build_index():
         with open(path, encoding="utf-8") as f:
             text = f.read()
             text = strip_front_matter(text)
-
-        tag_htmls = []
+            
         for t in tags:
             if tag_counts.get(t, 0) >= 2:
-                tag_htmls.append(f'<a href="./tags/{t}.html">#{t}</a>')
-            else:
-                tag_htmls.append(f'#{t}')
+                text = text.replace(t, f'<a href="./tags/{t}.html">{t}</a>')
+        # print(text)
+
+        # tag_htmls = []
+        # for t in tags:
+        #     if tag_counts.get(t, 0) >= 2:
+        #         tag_htmls.append(f'<a href="./tags/{t}.html">#{t}</a>')
+        #     else:
+        #         tag_htmls.append(f'#{t}')
 
         articles.append(f"""
         <article>
           <pre>{text}</pre>
-          <pre class="tags">{" ".join(tag_htmls)}</pre>
           <pre class="date">{dt_str}</pre>
         </article>
         """)
