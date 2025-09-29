@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  repository_dispatch:
+    types: [submodule-updated]
 
 jobs:
   build:
@@ -13,6 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+            submodules: true
             fetch-depth: 2
             persist-credentials: true 
 
@@ -30,10 +33,11 @@ jobs:
       - name: Get added Markdown file
         id: get_md
         run: |
+          cd post
           git fetch origin main
-          FILE=$(git diff --name-only ${{ github.sha }}^ ${{ github.sha }} | grep '^post/.*\.md$' | head -n 1 || true)
+          FILE=$(git diff --name-only ${{ github.sha }}^ ${{ github.sha }} | grep '\.md$' | head -n 1 || true)
           echo "Detected file: $FILE"
-          echo "file=$FILE" >> $GITHUB_OUTPUT
+          echo "file=post/$FILE" >> $GITHUB_OUTPUT
 
       - name: Update DB for new post
         if: steps.get_md.outputs.file != ''
