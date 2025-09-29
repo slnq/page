@@ -35,7 +35,8 @@ jobs:
         run: |
           cd post
           git fetch origin main
-          FILE=$(git diff-tree --no-commit-id --name-only -r HEAD | grep '\.md$' | head -n 1 || true)
+          LATEST=$(git rev-parse origin/main)
+          FILE=$(git diff --name-only $LATEST^ $LATEST | grep '\.md$' | head -n 1 || true)
           echo "Detected file: $FILE"
           echo "file=post/$FILE" >> $GITHUB_OUTPUT
 
