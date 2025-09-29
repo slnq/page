@@ -54,7 +54,7 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add db/data.db
-          git commit -m "Update DB for: ${{ steps.get_md.outputs.file }}"
+          git diff --cached --quiet || git commit -m "Update DB for: ${{ steps.get_md.outputs.file }}"
           git push
 
       - name: Build site
