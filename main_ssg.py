@@ -43,7 +43,7 @@ def build_index():
 
     # generate HTML articles
     articles = []
-    for filename, tags in post_tags_map.items():
+    for filename, tags in reversed(list(post_tags_map.items())):
         stem = filename.replace(".md", "")
         try:
             dt = datetime.strptime(stem, "%Y-%m-%d-%H-%M-%S")
@@ -138,7 +138,7 @@ def build_tags():
         articles = []
         articles.append(f'<div class="tag"><span class="emoji">🔖️</span>{tag_name}</div>')
 
-        for filename in filenames:
+        for filename in reversed(filenames):
             post_path = os.path.join("post", filename)
             if os.path.exists(post_path):
                 with open(post_path, encoding="utf-8") as f:
