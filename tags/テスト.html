@@ -4,40 +4,48 @@
   <meta charset="UTF-8">
 </head>
 <body>
-<header><div><a href="https://slnq.github.io" class="title">夏果</a></div></header>
+<header><div><a href="../index.html" class="title">夏果</a></div></header>
 <div class="dock">
 <div class="content">
   
 <article>
   <pre>
-この文章はテストのために書かれており全くの空虚で私はこのような乱雑な存在に心を大変いためているのです</pre>
-  <pre class="tags">#文章 <a href="./テスト.html">#テスト</a> #空虚 #乱雑 #存在 #心</pre>
+この文章は<a href="./テスト.html">テスト</a>のために書かれており全くの空虚で私はこのような乱雑な存在に心を大変いためているのです</pre>
   <pre class="date">2025/10/01 12:03</pre>
 </article>
 
 
 <article>
   <pre>
-PCを目の前にして私はテストを続けている
+<a href="./PC.html">PC</a>を目の前にして私は<a href="./テスト.html">テスト</a>を続けている
 コンパイラが自然言語を使えるようになったらいいのに
 目の前かな</pre>
-  <pre class="tags"><a href="./PC.html">#PC</a> <a href="./テスト.html">#テスト</a> #目 #コンパイラ #自然言語</pre>
   <pre class="date">2025/10/04 10:15</pre>
 </article>
 
 </div>
 </div>
 <style>
-body {
+html {
 	background-color: #454351;
 	color: #dcdce0;
+	scrollbar-width: none; 
+}
+
+html::-webkit-scrollbar {
+    display: none;
 }
 
 header {
 	text-align: center;
+	margin-bottom: 1.6rem;
 }
 
-.title { font-size: 2.2rem; }
+.title { 
+	font-size: 2.2rem;
+	font-family: serif;
+	text-decoration: none;
+}
 
 a {
   color: #dcdce0;
@@ -52,11 +60,48 @@ a {
 
 .content {
   max-width: min(90vw, 80vh);
+  font-size: 1.03rem;
 }
 
 pre {
   white-space: pre-wrap;
   word-break: break-word;
+  font-family: "ja","up","lo","nu","sy",sans-serif;
+  margin: 0;
+}
+
+.date {
+  margin: 0.4rem 0 2.4rem 1.2rem;
+}
+
+@font-face {
+    font-family: "ja";
+    src: local("UD Digi Kyokasho NK-R"),local("ヒラギノ角ゴ ProN W3"),local("Meiryo"),local("Noto Sans JP");
+    unicode-range: U+3005,U+3040-309F,U+30A0-30FF,U+4E00-9FFF
+}
+
+@font-face {
+    font-family: "lo";
+    src: local("Georgia");
+    unicode-range: U+0061-007A
+}
+
+@font-face {
+    font-family: "up";
+    src: local("Tahoma");
+    unicode-range: U+0041-005A
+}
+
+@font-face {
+    font-family: "nu";
+    src: local("Cambria");
+    unicode-range: U+0030-0039
+}
+
+@font-face {
+    font-family: "sy";
+    src: local("Segoe UI Symbol");
+    unicode-range: U+0021-002F,U+003A-0040,U+005B-0060,U+007B-007E,U+2190-21AA,U+FF00-FFEF
 }
 </style>
 </body>
