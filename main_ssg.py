@@ -100,6 +100,7 @@ def build_tags():
     # load HTML template
     with open(os.path.join("build", "template.html"), encoding="utf-8") as f:
         template = f.read()
+    template = template.replace('https://slnq.github.io', '../index.html')
 
     # get all tags
     cur.execute("SELECT id, name FROM tags")
@@ -152,17 +153,20 @@ def build_tags():
                 """, (filename,))
                 post_tags_list = [row[0] for row in cur.fetchall()]
 
-                tag_htmls = []
                 for t in post_tags_list:
                     if t in multi_post_tags:
-                        tag_htmls.append(f'<a href="./{t}.html">#{t}</a>')
-                    else:
-                        tag_htmls.append(f'#{t}')
+                        text = text.replace(t, f'<a href="./{t}.html">{t}</a>')
+
+                # tag_htmls = []
+                # for t in post_tags_list:
+                #     if t in multi_post_tags:
+                #         tag_htmls.append(f'<a href="./{t}.html">#{t}</a>')
+                #     else:
+                #         tag_htmls.append(f'#{t}')
 
                 articles.append(f"""
 <article>
   <pre>{text}</pre>
-  <pre class="tags">{" ".join(tag_htmls)}</pre>
   <pre class="date">{dt_str}</pre>
 </article>
 """)
@@ -174,7 +178,7 @@ def build_tags():
         output = template.replace("{{content}}", content)
 
         # write to file
-        html_path = os.path.join(os.path.join("docs", "tags"), f"{tag_name}.html")
+        html_path = os.path.join("docs", "tags", f"{tag_name}.html")
         with open(html_path, "w", encoding="utf-8") as f:
             f.write(output)
 
