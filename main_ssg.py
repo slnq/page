@@ -6,8 +6,6 @@ from datetime import datetime
 import re
 
 def build_index():
-    # copy favicon
-    shutil.copy("./build/f.ico", "./docs/")
     # load HTML template
     with open("./build/template.html", encoding="utf-8") as f:
         template = f.read()
@@ -87,7 +85,12 @@ def build_index():
     content = "\n".join(articles)
     output = template.replace("{{content}}", content)
     
+	# create docs directory if not exists
     os.makedirs("./docs", exist_ok=True)
+    
+	# copy favicon
+    shutil.copy("./build/f.ico", "./docs/")
+    
     with open("./docs/index.html", "w", encoding="utf-8") as f:
         f.write(output)
         
