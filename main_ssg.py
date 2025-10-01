@@ -1,3 +1,4 @@
+import shutil
 import os
 import sqlite3
 from build.strip_front_matter import strip_front_matter
@@ -5,6 +6,8 @@ from datetime import datetime
 import re
 
 def build_index():
+    # copy favicon
+    shutil.copy("./build/f.ico", "./docs/")
     # load HTML template
     with open("./build/template.html", encoding="utf-8") as f:
         template = f.read()
@@ -101,6 +104,7 @@ def build_tags():
     with open(os.path.join("build", "template.html"), encoding="utf-8") as f:
         template = f.read()
     template = template.replace('https://slnq.github.io', '../index.html')
+    template = template.replace('./f.ico', '../f.ico')
 
     # get all tags
     cur.execute("SELECT id, name FROM tags")
@@ -129,6 +133,7 @@ def build_tags():
             continue
 
         articles = []
+        articles.append(f'<div class="tag"><span class="emoji">🔖️</span>{tag_name}</div>')
 
         for filename in filenames:
             post_path = os.path.join("post", filename)
