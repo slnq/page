@@ -3,6 +3,7 @@ import os
 import sqlite3
 from build.strip_front_matter import strip_front_matter
 from datetime import datetime
+from build.ogp import replace_urls_with_ogp_links
 import re
 
 def build_index():
@@ -62,6 +63,8 @@ def build_index():
         for t in tags:
             if tag_counts.get(t, 0) >= 2:
                 text = text.replace(t, f'<a href="./tags/{t}.html">{t}</a>')
+                
+        text = replace_urls_with_ogp_links(text)
         # print(text)
 
         # tag_htmls = []
